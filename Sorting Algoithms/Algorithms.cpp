@@ -46,26 +46,16 @@ public:
 			{
 				if (arrayElements[j] > arrayElements[j + 1])
 				{
-
 					int temp = arrayElements[j];
 					arrayElements[j] = arrayElements[j + 1];
 					arrayElements[j + 1] = temp;
 
 					swapped = true;
 					totalSwaps++;
-
-
-					cout << "Swap " << totalSwaps << " in iteration " << iterations + 1 << ": ";
-					for (int k = 0; k < arrayLength; k++)
-					{
-						cout << arrayElements[k] << " ";
-					}
-					cout << endl;
 				}
 			}
 
 			iterations++;
-
 
 			if (!swapped)
 			{
@@ -73,9 +63,18 @@ public:
 				break;
 			}
 		}
+
+		cout << "Sorted array in ascending order: ";
+		for (int i = 0; i < arrayLength; i++)
+		{
+			cout << arrayElements[i] << " ";
+		}
+		cout << endl;
+
 		cout << "Total iterations: " << iterations << endl;
 		cout << "Total swaps (steps): " << totalSwaps << endl;
 	}
+
 	void BubbleSortDescending(int arrayLength, int arrayElements[])
 	{
 		int iterations = 0;
@@ -95,13 +94,6 @@ public:
 
 					swapped = true;
 					totalSwaps++;
-
-					cout << "Swap " << totalSwaps << " in iteration " << iterations + 1 << ": ";
-					for (int k = 0; k < arrayLength; k++)
-					{
-						cout << arrayElements[k] << " ";
-					}
-					cout << endl;
 				}
 			}
 
@@ -113,6 +105,14 @@ public:
 				break;
 			}
 		}
+
+		cout << "Sorted array in descending order: ";
+		for (int i = 0; i < arrayLength; i++)
+		{
+			cout << arrayElements[i] << " ";
+		}
+		cout << endl;
+
 		cout << "Total iterations: " << iterations << endl;
 		cout << "Total swaps (steps): " << totalSwaps << endl;
 	}
@@ -142,21 +142,22 @@ public:
 				arrayElements[minPosition] = temp;
 
 				totalSwaps++;
-
-				cout << "Swap " << totalSwaps << " in iteration " << iteration + 1 << ": ";
-				for (int k = 0; k < arrayLength; k++)
-				{
-					cout << arrayElements[k] << " ";
-				}
-				cout << endl;
 			}
 
 			iteration++;
 		}
+
+		cout << "Sorted array in ascending order: ";
+		for (int i = 0; i < arrayLength; i++)
+		{
+			cout << arrayElements[i] << " ";
+		}
+		cout << endl;
+
 		cout << "Total iterations: " << iteration << endl;
-		cout << "Total swaps (steps): " << totalSwaps << endl;
-		cout << "Total minimum index changes: " << minIndexChanges << endl;
+		cout << "Total steps (swaps): " << minIndexChanges << endl;
 	}
+
 	void SelectionSortDescending(int arrayLength, int arrayElements[])
 	{
 		int iteration = 0;
@@ -182,21 +183,20 @@ public:
 				arrayElements[maxPosition] = temp;
 
 				totalSwaps++;
-
-
-				cout << "Swap " << totalSwaps << " in iteration " << iteration + 1 << ": ";
-				for (int k = 0; k < arrayLength; k++)
-				{
-					cout << arrayElements[k] << " ";
-				}
-				cout << endl;
 			}
 
 			iteration++;
 		}
+
+		cout << "Sorted array in descending order: ";
+		for (int i = 0; i < arrayLength; i++)
+		{
+			cout << arrayElements[i] << " ";
+		}
+		cout << endl;
+
 		cout << "Total iterations: " << iteration << endl;
-		cout << "Total swaps (steps): " << totalSwaps << endl;
-		cout << "Total maximum index changes: " << maxIndexChanges << endl;
+		cout << "Total steps(swaps):  " << maxIndexChanges << endl;
 	}
 
 	void heapify(int arr[], int n, int i, int& iteration, int& steps)
@@ -287,6 +287,155 @@ public:
 		cout << "Total iterations: " << n - 1 << endl;
 		cout << "Total steps: " << steps << endl;
 	}
+
+	void MergeSortAscending(std::vector<int>& arr)
+	{
+		int steps = 0;
+		int iterations = 0;
+
+		int n = arr.size();
+		if (n < 2) {
+			std::cout << "Array is already sorted. Exiting early." << std::endl;
+			return;
+		}
+
+		mergeSort(arr, 0, n - 1, steps, iterations);
+
+		std::cout << "Sorted array in ascending order: ";
+		for (int i = 0; i < n; i++)
+			std::cout << arr[i] << " ";
+		std::cout << std::endl;
+
+		std::cout << "Total iterations: " << iterations << std::endl;
+		std::cout << "Total swaps (steps): " << steps << std::endl;
+	}
+
+	void mergeSort(std::vector<int>& arr, int low, int high, int& steps, int& iterations) {
+		if (low < high) {
+			iterations++;
+			int mid = low + (high - low) / 2;
+			mergeSort(arr, low, mid, steps, iterations);
+			mergeSort(arr, mid + 1, high, steps, iterations);
+
+			merge(arr, low, mid, high, steps);
+		}
+	}
+
+	void merge(std::vector<int>& arr, int left, int mid, int right, int& steps) {
+		int n1 = mid - left + 1;
+		int n2 = right - mid;
+
+		std::vector<int> L(n1);
+		std::vector<int> R(n2);
+
+		for (int i = 0; i < n1; i++)
+			L[i] = arr[left + i];
+		for (int j = 0; j < n2; j++)
+			R[j] = arr[mid + 1 + j];
+
+		int i = 0;
+		int j = 0;
+		int k = left;
+
+		while (i < n1 && j < n2) {
+			steps++;
+			if (L[i] <= R[j]) {
+				arr[k] = L[i];
+				i++;
+			}
+			else {
+				arr[k] = R[j];
+				j++;
+			}
+			k++;
+		}
+
+		while (i < n1) {
+			arr[k] = L[i];
+			i++;
+			k++;
+		}
+
+		while (j < n2) {
+			arr[k] = R[j];
+			j++;
+			k++;
+		}
+	}
+	void MergeSortDescending(std::vector<int>& arr)
+	{
+		int steps = 0;
+		int iterations = 0;
+
+		int n = arr.size();
+		if (n < 2) {
+			std::cout << "Array is already sorted. Exiting early." << std::endl;
+			return;
+		}
+
+		mergeSortDesc(arr, 0, n - 1, steps, iterations);
+
+		std::cout << "Sorted array in descending order: ";
+		for (int i = 0; i < n; i++)
+			std::cout << arr[i] << " ";
+		std::cout << std::endl;
+
+		std::cout << "Total iterations: " << iterations << std::endl;
+		std::cout << "Total swaps (steps): " << steps << std::endl;
+	}
+
+	void mergeSortDesc(std::vector<int>& arr, int low, int high, int& steps, int& iterations) {
+		if (low < high) {
+			iterations++;
+			int mid = low + (high - low) / 2;
+			mergeSortDesc(arr, low, mid, steps, iterations);
+			mergeSortDesc(arr, mid + 1, high, steps, iterations);
+
+			mergeDesc(arr, low, mid, high, steps);
+		}
+	}
+
+	void mergeDesc(std::vector<int>& arr, int left, int mid, int right, int& steps) {
+		int n1 = mid - left + 1;
+		int n2 = right - mid;
+
+		std::vector<int> L(n1);
+		std::vector<int> R(n2);
+
+		for (int i = 0; i < n1; i++)
+			L[i] = arr[left + i];
+		for (int j = 0; j < n2; j++)
+			R[j] = arr[mid + 1 + j];
+
+		int i = 0;
+		int j = 0;
+		int k = left;
+
+		while (i < n1 && j < n2) {
+			steps++;
+			if (L[i] >= R[j]) { // This line is changed to sort in descending order
+				arr[k] = L[i];
+				i++;
+			}
+			else {
+				arr[k] = R[j];
+				j++;
+			}
+			k++;
+		}
+
+		while (i < n1) {
+			arr[k] = L[i];
+			i++;
+			k++;
+		}
+
+		while (j < n2) {
+			arr[k] = R[j];
+			j++;
+			k++;
+		}
+	}
 };
 
 int main()
@@ -322,16 +471,18 @@ int main()
 				do
 				{
 					cout << "[1] Ascending Pattern" << endl;
-					cout << "[2] Descending Patter" << endl;
+					cout << "[2] Descending Pattern" << endl;
 					cout << "Select Sorting Arrangement:";
 					cin >> userResponseForPattern;
 
 					switch (userResponseForPattern)
 					{
 					case 1:
+						sorter.MergeSortAscending(userArrayElements);
 						break;
 
 					case 2:
+						sorter.MergeSortDescending(userArrayElements);
 						break;
 
 					default:
@@ -348,7 +499,7 @@ int main()
 				do
 				{
 					cout << "[1] Ascending Pattern" << endl;
-					cout << "[2] Descending Patter" << endl;
+					cout << "[2] Descending Pattern" << endl;
 					cout << "Select Sorting Arrangement:";
 					cin >> userResponseForPattern;
 
@@ -376,7 +527,7 @@ int main()
 				do
 				{
 					cout << "[1] Ascending Pattern" << endl;
-					cout << "[2] Descending Patter" << endl;
+					cout << "[2] Descending Pattern" << endl;
 					cout << "Select Sorting Arrangement:";
 					cin >> userResponseForPattern;
 
@@ -404,7 +555,7 @@ int main()
 				do
 				{
 					cout << "[1] Ascending Pattern" << endl;
-					cout << "[2] Descending Patter" << endl;
+					cout << "[2] Descending Pattern" << endl;
 					cout << "Select Sorting Arrangement:";
 					cin >> userResponseForPattern;
 
